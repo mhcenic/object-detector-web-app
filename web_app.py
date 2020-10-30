@@ -15,11 +15,11 @@ from keras.models import load_model
 from src.keras_yolo import yolo_eval, yolo_head
 from src.yolo_utils import get_image, get_classes, get_anchors, get_colors_for_classes, predict, create_output_dir
 
-CLASSES_DIR = f'{os.path.dirname(__file__)}/../model_data/coco_classes.txt'
-ANCHORS_DIR = f'{os.path.dirname(__file__)}/../model_data/yolo_anchors.txt'
-MODEL_DIR = f'{os.path.dirname(__file__)}/../model_data/yolo.h5'
-IMAGES_DIR = f'{os.path.dirname(__file__)}/../images/'
-OUTPUT_DIR = f'{os.path.dirname(__file__)}/../out'
+CLASSES_DIR = 'model_data/coco_classes.txt'
+ANCHORS_DIR = 'model_data/yolo_anchors.txt'
+MODEL_DIR = 'model_data/yolo.h5'
+IMAGES_DIR = 'images/'
+OUTPUT_DIR = 'out/'
 
 TEST_IMAGE_LIST = [os.path.basename(x) for x in glob.glob('{}*.jpg'.format(IMAGES_DIR))]
 static_image_route = '/static/'

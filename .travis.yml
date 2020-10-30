@@ -9,7 +9,7 @@ install:
   - pip install coverage
 
 script:
-  - pytest --cov=src tests/tests.py 
+  - coverage run -m pytest tests/tests.py
 
 after_success:
   - coveralls

@@ -5,6 +5,7 @@ from src.yolo_utils import (get_classes, get_anchors, get_colors_for_classes)
 
 
 class TestYOLODetector(unittest.TestCase):
+
     def test_read_classes(self):
         classes_path = '../object-detector-web-app/model_data/coco_classes.txt'
         num_of_classes = 80

@@ -1,9 +1,11 @@
-# object-detector-web-app
+# DetApp: Object Detector - Web App
 
 [![Build Status](https://travis-ci.org/mhcenic/object-detector-web-app.svg?branch=master)](https://travis-ci.org/mhcenic/object-detector-web-app)
 [![Coverage Status](https://coveralls.io/repos/github/mhcenic/object-detector-web-app/badge.svg?branch=master)](https://coveralls.io/github/mhcenic/object-detector-web-app?branch=master)
 
 Web app for image object detection using YOLO algorithm.
+
+You can check the demo [here](https://detappv2.herokuapp.com/).
 
 ### Installation
 ```bash
@@ -27,6 +29,6 @@ mkdir images
 wget http://pjreddie.com/media/files/yolov2.weights
 wget https://raw.githubusercontent.com/pjreddie/darknet/master/cfg/yolov2.cfg
 ./yad2k.py yolov2.cfg yolov2.weights model_data/yolo.h5
-./app.py
+./src/app.py
 ```
-See `./yad2k.py --help` and `./yolo_detector.py --help` for more options.
+See `./yad2k.py --help` for more options.

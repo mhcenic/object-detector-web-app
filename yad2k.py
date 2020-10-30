@@ -80,7 +80,7 @@ def _main(args):
     print('Loading weights.')
     weights_file = open(weights_path, 'rb')
     weights_header = np.ndarray(
-        shape=(4, ), dtype='int32', buffer=weights_file.read(16))
+        shape=(4,), dtype='int32', buffer=weights_file.read(16))
     print('Weights Header: ', weights_header)
     # TODO: Check transpose flag when implementing fully connected layers.
     # transpose = (weight_header[0] > 1000) or (weight_header[1] > 1000)
@@ -129,7 +129,7 @@ def _main(args):
                   if batch_normalize else '  ', activation, weights_shape)
 
             conv_bias = np.ndarray(
-                shape=(filters, ),
+                shape=(filters,),
                 dtype='float32',
                 buffer=weights_file.read(filters * 4))
             count += filters
@@ -208,7 +208,7 @@ def _main(args):
             prev_layer = all_layers[-1]
 
         elif section.startswith('avgpool'):
-            if cfg_parser.items(section) != []:
+            if cfg_parser.items(section):
                 raise ValueError('{} with params unsupported.'.format(section))
             all_layers.append(GlobalAveragePooling2D()(prev_layer))
             prev_layer = all_layers[-1]

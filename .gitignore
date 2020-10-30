@@ -129,12 +129,14 @@ dmypy.json
 .pyre/
 
 # Ignore generated models, test images, and Darknet files.
-.idea/*
 *.h5
 *.weights
-*.jpg
 *.cfg
+*.jpg
 images/*
 out/*
+
+# Others
+.idea/*
 wget.exe
 .wget-hsts

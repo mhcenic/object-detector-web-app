@@ -23,27 +23,16 @@ def space_to_depth_x2_output_shape(input_shape):
 
 
 def yolo_head(feats, anchors, num_classes):
-    """Convert final layer features to bounding box parameters.
+    """
+    Convert final layer features to bounding box parameters.
 
-    Parameters
-    ----------
-    feats : tensor
-        Final convolutional layer features.
-    anchors : array-like
-        Anchor box widths and heights.
-    num_classes : int
-        Number of target classes.
-
-    Returns
-    -------
-    box_xy : tensor
-        x, y box predictions adjusted by spatial location in conv layer.
-    box_wh : tensor
-        w, h box predictions adjusted by anchors and conv spatial resolution.
-    box_conf : tensor
-        Probability estimate for whether each box contains any object.
-    box_class_pred : tensor
-        Probability distribution estimate for each box over class labels.
+    :param feats: final convolutional layer features
+    :param anchors: anchor box widths and heights
+    :param num_classes: number of target classes
+    :return:    box_xy : x, y box predictions adjusted by spatial location in conv layer
+                box_wh : w, h box predictions adjusted by anchors and conv spatial resolution
+                box_conf : probability estimate for whether each box contains any object
+                box_class_pred : probability distribution estimate for each box over class labels
     """
     num_anchors = len(anchors)
     # Reshape to batch, height, width, num_anchors, box_params.

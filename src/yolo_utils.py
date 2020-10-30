@@ -3,22 +3,27 @@ import colorsys
 import random
 import os
 
+from keras import backend as K
 from PIL import ImageFont, ImageDraw, Image
 
 
 def get_classes(classes_path):
     """
-    Loads the classes.
+    Load classes from a file.
+    :param classes_path: path to class directory
+    :return: classes names
     """
     with open(classes_path) as f:
-        class_names = f.readlines()
-    class_names = [c.strip() for c in class_names]
-    return class_names
+        classes = f.readlines()
+    classes = [c.strip() for c in classes]
+    return classes
 
 
 def get_anchors(anchors_path):
     """
-    Loads the anchors from a file.
+    Load anchors from a file.
+    :param anchors_path: path to anchors directory
+    :return: anchors
     """
     with open(anchors_path) as f:
         anchors = f.readline()
@@ -27,10 +32,14 @@ def get_anchors(anchors_path):
     return anchors
 
 
-def get_colors_for_classes(class_names):
-    # Generate colors for drawing bounding boxes.
-    hsv_tuples = [(x / len(class_names), 1., 1.)
-                  for x in range(len(class_names))]
+def get_colors_for_classes(classes):
+    """
+    Generate colors for drawing bounding boxes.
+    :param classes: classes names
+    :return: colors
+    """
+    hsv_tuples = [(x / len(classes), 1., 1.)
+                  for x in range(len(classes))]
     colors = list(map(lambda x: colorsys.hsv_to_rgb(*x), hsv_tuples))
     colors = list(
         map(lambda x: (int(x[0] * 255), int(x[1] * 255), int(x[2] * 255)),
@@ -41,14 +50,23 @@ def get_colors_for_classes(class_names):
     return colors
 
 
-def draw_boxes(image, out_classes, out_boxes, out_scores, class_names, colors):
+def draw_boxes(image, out_classes, out_boxes, out_scores, classes, colors):
+    """
+    Draw boxes on image.
+    :param image: image file
+    :param out_classes: detected classes
+    :param out_boxes: boxes positions
+    :param out_scores: confidence scores
+    :param classes: classes names
+    :param colors: colors for boxes
+    """
     font = ImageFont.truetype(
         font='font/FiraMono-Medium.otf',
         size=np.floor(3e-2 * image.size[1] + 0.5).astype('int32'))
     thickness = (image.size[0] + image.size[1]) // 300
 
     for i, c in reversed(list(enumerate(out_classes))):
-        predicted_class = class_names[c]
+        predicted_class = classes[c]
         box = out_boxes[i]
         score = out_scores[i]
 
@@ -81,8 +99,16 @@ def draw_boxes(image, out_classes, out_boxes, out_scores, class_names, colors):
         del draw
 
 
-def get_image(image_file, test_path, model_image_size):
-    image = Image.open(os.path.join(test_path, image_file))
+def get_image(image_name, test_path, model_image_size):
+    """
+    Preprocess image.
+    :param image_name: test image name
+    :param test_path: path to test image directory
+    :param model_image_size: model image size
+    :return:    image_data : preprocessed image
+                image : original image
+    """
+    image = Image.open(os.path.join(test_path, image_name))
     is_fixed_size = model_image_size != (None, None)
     if is_fixed_size:  # TODO: When resizing we can use minibatch input.
         resized_image = image.resize(
@@ -100,3 +126,25 @@ def get_image(image_file, test_path, model_image_size):
     image_data /= 255.
     image_data = np.expand_dims(image_data, 0)  # Add batch dimension.
     return image_data, image
+
+
+def predict(sess, boxes, scores, classes, yolo_model, image_data, input_image_shape, image, image_file, class_names,
+            colors, output_path):
+    """
+    Find objects on image.
+    """
+    out_boxes, out_scores, out_classes = sess.run([boxes, scores, classes], feed_dict={yolo_model.input: image_data,
+                                                                                       input_image_shape: [
+                                                                                           image.size[1],
+                                                                                           image.size[0]],
+                                                                                       K.learning_phase(): 0})
+
+    print('Found {} boxes for {}'.format(len(out_boxes), image_file))
+    draw_boxes(image, out_classes, out_boxes, out_scores, class_names, colors)
+    image.save(os.path.join(output_path, image_file), quality=90)
+
+
+def create_output_dir(output_dir):
+    if not os.path.exists(output_dir):
+        print('Creating output path {}'.format(output_dir))
+        os.mkdir(output_dir)

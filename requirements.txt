@@ -44,6 +44,7 @@ google-auth==1.19.2
 google-auth-oauthlib==0.4.1
 google-pasta==0.2.0
 grpcio==1.30.0
+gunicorn==20.0.4
 h5py==2.10.0
 idna==2.8
 imageio==2.9.0
@@ -85,6 +86,7 @@ pyOpenSSL==19.1.0
 pyparsing==2.4.7
 pyrsistent==0.16.0
 pytest==5.3.5
+pytest-cov==2.10.1
 pytest-mock==2.0.0
 pytest-sugar==0.9.2
 python-dateutil==2.8.1

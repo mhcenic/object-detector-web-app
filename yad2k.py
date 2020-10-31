@@ -22,8 +22,8 @@ from keras.models import Model
 from keras.regularizers import l2
 from keras.utils.vis_utils import plot_model as plot
 
-from src.keras_yolo import (space_to_depth_x2,
-                            space_to_depth_x2_output_shape)
+from src_yad2k.keras_yolo_yad2k import (space_to_depth_x2,
+                                        space_to_depth_x2_output_shape)
 
 parser = argparse.ArgumentParser(
     description='Yet Another Darknet To Keras Converter.')
@@ -39,7 +39,7 @@ parser.add_argument(
     '-flcl',
     '--fully_convolutional',
     help='Model is fully convolutional so set input shape to (None, None, 3). '
-    'WARNING: This experimental option does not work properly for YOLO_v2.',
+         'WARNING: This experimental option does not work properly for YOLO_v2.',
     action='store_true')
 
 

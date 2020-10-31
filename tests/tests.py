@@ -1,6 +1,8 @@
 import unittest
 import numpy as np
+import tensorflow as tf
 
+from src.keras_yolo import yolo_eval
 from src.yolo_utils import (get_classes, get_anchors, get_colors_for_classes)
 
 
@@ -28,6 +30,21 @@ class TestYOLODetector(unittest.TestCase):
         colors = get_colors_for_classes(class_names)
         colors_list = [(255, 0, 0), (0, 0, 255), (0, 255, 255), (0, 255, 0), (255, 255, 0), (255, 0, 255)]
         self.assertEqual(colors, colors_list)
+
+    def test_yolo_eval(self):
+        with tf.Session() as test_b:
+            yolo_outputs = (tf.random_normal([19, 19, 5, 2], mean=1, stddev=4, seed=1),
+                            tf.random_normal([19, 19, 5, 2], mean=1, stddev=4, seed=1),
+                            tf.random_normal([19, 19, 5, 1], mean=1, stddev=4, seed=1),
+                            tf.random_normal([19, 19, 5, 80], mean=1, stddev=4, seed=1))
+
+            boxes, scores, classes = yolo_eval(yolo_outputs, image_shape=(720., 1280.))
+            self.assertEqual(str(scores[2].eval()), str(138.79124))
+            self.assertEqual(str(boxes[2].eval()), "[1292.3297  -278.52167 3876.9893  -835.56494]")
+            self.assertTrue(str(classes[2].eval()), str(54))
+            self.assertTrue(str(scores.eval().shape) == str((10,)))
+            self.assertTrue(str(boxes.eval().shape) == str((10, 4)))
+            self.assertTrue(str(classes.eval().shape) == str((10,)))
 
 
 if __name__ == '__main__':

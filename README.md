@@ -29,6 +29,6 @@ mkdir images
 wget http://pjreddie.com/media/files/yolov2.weights
 wget https://raw.githubusercontent.com/pjreddie/darknet/master/cfg/yolov2.cfg
 ./yad2k.py yolov2.cfg yolov2.weights model_data/yolo.h5
-./src/app.py
+./web_app.py
 ```
 See `./yad2k.py --help` for more options.

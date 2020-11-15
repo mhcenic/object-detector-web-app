@@ -62,9 +62,9 @@ app.layout = html.Div(
                 
                 Author: mhcenic
                 License: check in repo
-                Repo: https://github.com/mhcenic/object-detector-web-app
+                Repo: github.com/mhcenic/object-detector-web-app
                 
-                Test photos belong to Allan Zellener, downloaded from the site: https://github.com/allanzelener/YAD2K
+                Test photos belong to Allan Zellener, downloaded from the site: github.com/allanzelener/YAD2K
                 """
                               ),
                 dbc.ModalFooter(

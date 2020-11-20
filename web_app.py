@@ -64,7 +64,8 @@ app.layout = html.Div(
                 License: check in repo
                 Repo: github.com/mhcenic/object-detector-web-app
                 
-                Test photos downloaded from cocodataset.org/
+                Test photos downloaded from cocodataset.org/ 
+                and Alan Zellener repo (https://github.com/allanzelener/YAD2K) 
                 """
                               ),
                 dbc.ModalFooter(

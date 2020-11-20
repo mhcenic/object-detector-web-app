@@ -5,7 +5,7 @@
 
 Web app for image object detection using YOLO algorithm.
 
-You can check the demo [here](https://detv1.herokuapp.com/).
+You can check the demo [here](https://detv1.herokuapp.com/) (slower version due to limitations).
 
 ### Installation
 ```bash

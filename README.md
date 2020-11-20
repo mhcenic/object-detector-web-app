@@ -35,5 +35,6 @@ See `./yad2k.py --help` for more options.
 ### Documenation
 To generate documentation:
 ```bash
+cd docs
 make html
 ```

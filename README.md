@@ -32,3 +32,8 @@ wget https://raw.githubusercontent.com/pjreddie/darknet/master/cfg/yolov2.cfg
 ./web_app.py
 ```
 See `./yad2k.py --help` for more options.
+### Documenation
+To generate documentation:
+```bash
+make html
+```

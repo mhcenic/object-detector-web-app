@@ -8,14 +8,14 @@ from src.yolo_utils import (get_classes, get_anchors, get_colors_for_classes)
 
 class TestYOLODetector(unittest.TestCase):
 
-    def test_read_classes(self):
+    def test_get_classes(self):
         classes_path = '../object-detector-web-app/model_data/coco_classes.txt'
         num_of_classes = 80
         class_names = get_classes(classes_path)
         self.assertTrue(len(class_names) == num_of_classes)
         self.assertEqual(class_names[0], 'person')
 
-    def test_read_anchors(self):
+    def test_get_anchors(self):
         anchors_path = '../object-detector-web-app/model_data/yolo_anchors.txt'
         anchors = get_anchors(anchors_path)
         array = np.array(

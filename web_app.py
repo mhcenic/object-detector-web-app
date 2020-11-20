@@ -56,7 +56,7 @@ app.layout = html.Div(
         dbc.Modal(
             [
                 dbc.ModalHeader("DetApp"),
-                dbc.ModalBody("""Web app for image object detection using YOLO algorithm.  
+                dbc.ModalBody(f"""Web app for image object detection using YOLO algorithm.  
                 Select test image and set up minimum confidence threshold.
                 
                 
@@ -64,7 +64,7 @@ app.layout = html.Div(
                 License: check in repo
                 Repo: github.com/mhcenic/object-detector-web-app
                 
-                Test photos belong to Allan Zellener, downloaded from the site: github.com/allanzelener/YAD2K
+                Test photos downloaded from cocodataset.org/
                 """
                               ),
                 dbc.ModalFooter(
@@ -153,6 +153,7 @@ app.layout = html.Div(
     [dash.dependencies.State("info-modal", "is_open")],
 )
 def toggle_modal(n1, n2, is_open):
+    """Open and close info-box."""
     if n1 or n2:
         return not is_open
     return is_open
@@ -162,10 +163,10 @@ def toggle_modal(n1, n2, is_open):
     dash.dependencies.Output('image0', 'src'),
     [dash.dependencies.Input('image0-dropdown', 'value')])
 def update_image_src(test_image):
-    """
-    Shows selected test image
-    :param test_image: selected test image name
-    :return: path to selected test image
+    """Show selected image.
+
+    :param test_image: selected image name.
+    :return: path to selected image.
     """
     return static_image_route + test_image
 
@@ -175,10 +176,10 @@ def update_image_src(test_image):
 # from your computer or server
 @app.server.route('{}<image_path>.jpg'.format(static_image_route))
 def serve_image(image_path):
-    """
-    Helper function to load test images
-    :param image_path: path to test images
-    :return: test image file
+    """Helper function to load test images.
+
+    :param image_path: path to test images.
+    :return: test image.
     """
     image_name = '{}.jpg'.format(image_path)
     if image_name not in TEST_IMAGE_LIST:
@@ -191,11 +192,11 @@ def serve_image(image_path):
     [dash.dependencies.Input('image0-dropdown', 'value'),
      dash.dependencies.Input('my-slider', 'value')])
 def run_script(test_image, slider):
-    """
-    Runs YOLO detector with params.
-    :param test_image: selected test image name
-    :param slider: minimum confidence threshold
-    :return: image with found objects
+    """Run YOLO detector with params.
+
+    :param test_image: selected test image.
+    :param slider: minimum confidence threshold.
+    :return: image after prediction.
     """
     boxes, scores, classes = yolo_eval(yolo_outputs, input_image_shape, score_threshold=slider, iou_threshold=.6)
     image_data, image = get_image(test_image, IMAGES_DIR, model_image_size)

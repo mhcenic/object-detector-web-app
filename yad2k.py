@@ -1,8 +1,8 @@
 #! /usr/bin/env python
 """
-Reads Darknet19 config and weights and creates Keras model with TF backend.
+Reads Darknet-19 config and weights and creates Keras model with TF backend.
 
-Currently only supports layers in Darknet19 config.
+Currently only supports layers in Darknet-19 config.
 """
 
 import argparse
@@ -22,9 +22,6 @@ from keras.models import Model
 from keras.regularizers import l2
 from keras.utils.vis_utils import plot_model as plot
 
-from src_yad2k.keras_yolo_yad2k import (space_to_depth_x2,
-                                        space_to_depth_x2_output_shape)
-
 parser = argparse.ArgumentParser(
     description='Yet Another Darknet To Keras Converter.')
 parser.add_argument('config_path', help='Path to Darknet cfg file.')
@@ -41,6 +38,24 @@ parser.add_argument(
     help='Model is fully convolutional so set input shape to (None, None, 3). '
          'WARNING: This experimental option does not work properly for YOLO_v2.',
     action='store_true')
+
+
+def space_to_depth_x2(x):
+    """Thin wrapper for Tensorflow space_to_depth with block_size=2."""
+    # Import currently required to make Lambda work.
+    # See: https://github.com/fchollet/keras/issues/5088#issuecomment-273851273
+    import tensorflow as tf
+    return tf.space_to_depth(x, block_size=2)
+
+
+def space_to_depth_x2_output_shape(input_shape):
+    """Determine space_to_depth output shape for block_size=2.
+
+    Note: For Lambda with TensorFlow backend, output shape may not be needed.
+    """
+    return (input_shape[0], input_shape[1] // 2, input_shape[2] // 2, 4 *
+            input_shape[3]) if input_shape[1] else (input_shape[0], None, None,
+                                                    4 * input_shape[3])
 
 
 def unique_config_sections(config_file):

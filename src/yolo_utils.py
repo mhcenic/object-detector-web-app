@@ -8,11 +8,12 @@ from PIL import ImageFont, ImageDraw, Image
 
 
 def get_classes(classes_path):
+    """Load classes from file.
+
+    :param classes_path: path to classes directory.
+    :return: classes.
     """
-    Load classes from a file.
-    :param classes_path: path to class directory
-    :return: classes names
-    """
+
     with open(classes_path) as f:
         classes = f.readlines()
     classes = [c.strip() for c in classes]
@@ -20,10 +21,10 @@ def get_classes(classes_path):
 
 
 def get_anchors(anchors_path):
-    """
-    Load anchors from a file.
+    """Load anchors from file.
+
     :param anchors_path: path to anchors directory
-    :return: anchors
+    :return: anchors.
     """
     with open(anchors_path) as f:
         anchors = f.readline()
@@ -33,10 +34,10 @@ def get_anchors(anchors_path):
 
 
 def get_colors_for_classes(classes):
-    """
-    Generate colors for drawing bounding boxes.
-    :param classes: classes names
-    :return: colors
+    """Generate colors for bounding boxes.
+
+    :param classes: classes names.
+    :return: colors.
     """
     hsv_tuples = [(x / len(classes), 1., 1.)
                   for x in range(len(classes))]
@@ -51,14 +52,14 @@ def get_colors_for_classes(classes):
 
 
 def draw_boxes(image, out_classes, out_boxes, out_scores, classes, colors):
-    """
-    Draw boxes on image.
+    """Draw boxes on image.
+
     :param image: image file
-    :param out_classes: detected classes
-    :param out_boxes: boxes positions
-    :param out_scores: confidence scores
-    :param classes: classes names
-    :param colors: colors for boxes
+    :param out_classes: detected classes.
+    :param out_boxes: boxes positions.
+    :param out_scores: confidence scores.
+    :param classes: classes names.
+    :param colors: colors for boxes.
     """
     font = ImageFont.truetype(
         font='font/FiraMono-Medium.otf',
@@ -100,13 +101,14 @@ def draw_boxes(image, out_classes, out_boxes, out_scores, classes, colors):
 
 
 def get_image(image_name, test_path, model_image_size):
-    """
-    Preprocess image.
-    :param image_name: test image name
-    :param test_path: path to test image directory
-    :param model_image_size: model image size
-    :return:    image_data : preprocessed image
-                image : original image
+    """Preprocess image.
+
+    :param image_name: test image name.
+    :param test_path: path to test image directory.
+    :param model_image_size: model image size.
+    :return:    image_data : preprocessed image.
+
+                image : original image.
     """
     image = Image.open(os.path.join(test_path, image_name))
     is_fixed_size = model_image_size != (None, None)
